@@ -1,0 +1,45 @@
+
+# Ненужные файлы для BackEnd на Python + Django (Django Rest Framework).
+venv
+.venv
+env
+.env
+.idea
+*.log
+__pycache__
+*.sqlite3
+staticfiles
+migrations
+celerybeat-schedule
+backend/voting_service_project/local_settings.py
+
+
+# Ненужные файлы для FrontEnd на JavaScript + React.
+# Файл создан при выполнении команды npm create vite@latest
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+frontend/src/components/Test/Test.jsx

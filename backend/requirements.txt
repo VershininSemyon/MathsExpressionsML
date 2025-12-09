@@ -1,0 +1,35 @@
+
+# Django Stuff
+Django==5.2.6
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+drf_yasg
+djoser
+
+# Testing
+pytest
+coverage
+
+# Code style
+pylint
+pycodestyle
+
+# Deploy
+gevent
+gunicorn
+
+# PostgreSQL
+psycopg2-binary
+
+# Redis
+redis
+django-redis
+
+# Celery
+celery
+django-celery-results
+flower
+
+# Others
+dotenv
