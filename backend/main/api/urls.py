@@ -1,14 +1,10 @@
 
 
-from django.urls import path, include
-
+from django.urls import include, path
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
-from .views import (
-    schema_view,
-    CustomTokenObtainPairView,
-    SheetViewSet,
-    MathsExpressionViewSet
-)
+
+from .views import (CustomTokenObtainPairView, MathsExpressionViewSet,
+                    SheetViewSet, schema_view)
 
 
 urlpatterns = [

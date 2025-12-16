@@ -4,6 +4,7 @@ import io
 
 from celery.result import AsyncResult
 from django.conf import settings
+from django.core.cache import cache
 from django.core.files.base import ContentFile
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -16,13 +17,12 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .caching import cache_api_view
-from .models import MathsExpression, Sheet
-from .permissions import IsSheetAuthorOrReadOnly
+from ..domain.models import MathsExpression, Sheet
+from ..infrastructure.caching import cache_api_view
+from ..infrastructure.tasks import recognize_math_expression
+from ..logic.permissions import IsSheetAuthorOrReadOnly
 from .serializers import (CustomTokenObtainPairSerializer,
                           MathsExpressionSerializer, SheetSerializer)
-from .tasks import recognize_math_expression
-from django.core.cache import cache
 
 
 schema_view = get_schema_view(
@@ -49,22 +49,24 @@ class SheetViewSet(ModelViewSet):
 
     throttle_scope = 'sheets'
 
+    def get_queryset(self):
+        return super().get_queryset().filter(creator=self.request.user)
+
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
         return super().perform_create(serializer)
 
-    @cache_api_view(
-        timeout=settings.CACHE_KEYS['SHEETS_LIST']['TIMEOUT'], 
-        key_prefix=settings.CACHE_KEYS['SHEETS_LIST']['NAME']
-    )
+    # @cache_api_view(
+    #     timeout=settings.CACHE_KEYS['SHEETS_LIST']['TIMEOUT'], 
+    #     key_prefix=settings.CACHE_KEYS['SHEETS_LIST']['NAME']
+    # )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
-    
 
-    @cache_api_view(
-        timeout=settings.CACHE_KEYS['SHEET_DETAIL']['TIMEOUT'], 
-        key_prefix=settings.CACHE_KEYS['SHEET_DETAIL']['NAME']
-    )
+    # @cache_api_view(
+    #     timeout=settings.CACHE_KEYS['SHEET_DETAIL']['TIMEOUT'], 
+    #     key_prefix=settings.CACHE_KEYS['SHEET_DETAIL']['NAME']
+    # )
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs) 
     
@@ -107,18 +109,25 @@ class MathsExpressionViewSet(ModelViewSet):
 
         return queryset
     
+    def perform_create(self, serializer):
+        sheet_id = self.kwargs.get('sheet_id')
+        if sheet_id:
+            sheet = Sheet.objects.get(id=sheet_id)
+            serializer.save(sheet=sheet)
 
-    @cache_api_view(
-        timeout=settings.CACHE_KEYS['MATHS_EXPRESSIONS_LIST']['TIMEOUT'], 
-        key_prefix=settings.CACHE_KEYS['MATHS_EXPRESSIONS_LIST']['NAME']
-    )
+        return super().perform_create(serializer)
+    
+    # @cache_api_view(
+    #     timeout=settings.CACHE_KEYS['MATHS_EXPRESSIONS_LIST']['TIMEOUT'], 
+    #     key_prefix=settings.CACHE_KEYS['MATHS_EXPRESSIONS_LIST']['NAME']
+    # )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
 
-    @cache_api_view(
-        timeout=settings.CACHE_KEYS['MATHS_EXPRESSION_DETAIL']['TIMEOUT'], 
-        key_prefix=settings.CACHE_KEYS['MATHS_EXPRESSION_DETAIL']['NAME']
-    )
+    # @cache_api_view(
+    #     timeout=settings.CACHE_KEYS['MATHS_EXPRESSION_DETAIL']['TIMEOUT'], 
+    #     key_prefix=settings.CACHE_KEYS['MATHS_EXPRESSION_DETAIL']['NAME']
+    # )
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)

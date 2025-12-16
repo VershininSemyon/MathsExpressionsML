@@ -1,6 +1,7 @@
 
 from django.contrib import admin
-from .models import Sheet, MathsExpression
+
+from .domain.models import MathsExpression, Sheet
 
 
 @admin.register(Sheet)

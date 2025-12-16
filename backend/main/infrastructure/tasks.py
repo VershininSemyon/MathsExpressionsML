@@ -6,7 +6,7 @@ from PIL import Image
 import io
 
 # Загружаем модель при старте
-MODEL_PATH = '/app/ml/ml_model.pkl'
+MODEL_PATH = 'ml/ml_model.pkl'
 
 try:
     with open(MODEL_PATH, 'rb') as f:
@@ -79,7 +79,7 @@ def process_uploaded_image(sheet_id, image_data, user_id):
             return recognition_result
         
         # Здесь можно сохранить результат в базу данных
-        from .models import MathsExpression, Sheet
+        from ..domain.models import MathsExpression, Sheet
         from django.contrib.auth.models import User
         
         try:

@@ -153,8 +153,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_THROTTLE_CLASSES': [
-        'main.throttles.SheetRateThrottle',
-        'main.throttles.MathsExpressionRateThrottle',
+        'main.api.throttles.SheetRateThrottle',
+        'main.api.throttles.MathsExpressionRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
         'sheets': '10/min',

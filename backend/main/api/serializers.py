@@ -1,7 +1,8 @@
 
 from rest_framework import serializers
-from .models import Sheet, MathsExpression
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from ..domain.models import MathsExpression, Sheet
 
 
 class SheetSerializer(serializers.ModelSerializer):

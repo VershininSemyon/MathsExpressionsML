@@ -11,7 +11,7 @@ __pycache__
 staticfiles
 migrations
 celerybeat-schedule
-backend/voting_service_project/local_settings.py
+backend/maths_recognition/local_settings.py
 
 
 # Ненужные файлы для FrontEnd на JavaScript + React.
