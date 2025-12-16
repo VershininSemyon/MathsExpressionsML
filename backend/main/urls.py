@@ -22,6 +22,7 @@ urlpatterns = [
     
     path('sheets/', SheetViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('sheets/<int:pk>/', SheetViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
+    path('sheets/<int:pk>/recognize/', SheetViewSet.as_view({'post': 'recognize'})),
 
     path('sheets/<int:sheet_id>/maths_expressions/', MathsExpressionViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('sheets/<int:sheet_id>/maths_expressions/<int:pk>/', MathsExpressionViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),

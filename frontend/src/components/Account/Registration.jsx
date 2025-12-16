@@ -7,7 +7,6 @@ import { register } from '../../services/auth';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 
 
-
 const Registration = () => {
     const initialFormData = {
         username: "",

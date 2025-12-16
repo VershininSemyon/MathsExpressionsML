@@ -1,18 +1,28 @@
 
+import base64
+import io
+
+from celery.result import AsyncResult
 from django.conf import settings
+from django.core.files.base import ContentFile
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from PIL import Image
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from .caching import cache_api_view
 from .models import MathsExpression, Sheet
 from .permissions import IsSheetAuthorOrReadOnly
 from .serializers import (CustomTokenObtainPairSerializer,
                           MathsExpressionSerializer, SheetSerializer)
-from .caching import cache_api_view
+from .tasks import recognize_math_expression
+from django.core.cache import cache
 
 
 schema_view = get_schema_view(
@@ -39,6 +49,10 @@ class SheetViewSet(ModelViewSet):
 
     throttle_scope = 'sheets'
 
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
+        return super().perform_create(serializer)
+
     @cache_api_view(
         timeout=settings.CACHE_KEYS['SHEETS_LIST']['TIMEOUT'], 
         key_prefix=settings.CACHE_KEYS['SHEETS_LIST']['NAME']
@@ -52,7 +66,27 @@ class SheetViewSet(ModelViewSet):
         key_prefix=settings.CACHE_KEYS['SHEET_DETAIL']['NAME']
     )
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs) 
+    
+    @action(detail=True, methods=['POST'])
+    def recognize(self, request, pk=None):
+        """
+        Отправить изображение для распознавания математического выражения
+        """
+        if 'image' not in request.FILES:
+            return Response({'error': 'No image provided'}, status=400)
+        
+        # Сохраняем изображение временно
+        image_file = request.FILES['image']
+        
+        # Запускаем Celery задачу
+        task = recognize_math_expression.delay(image_file.read())
+        
+        return Response({
+            'task_id': task.id,
+            'status': 'PROCESSING',
+            'message': 'Recognition started'
+        })
 
 
 class MathsExpressionViewSet(ModelViewSet):

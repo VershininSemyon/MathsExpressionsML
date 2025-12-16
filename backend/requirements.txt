@@ -33,3 +33,5 @@ flower
 
 # Others
 dotenv
+Pillow
+

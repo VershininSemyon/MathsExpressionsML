@@ -43,3 +43,4 @@ dist-ssr
 *.sw?
 
 frontend/src/components/Test/Test.jsx
+ml/ml_model.pkl
