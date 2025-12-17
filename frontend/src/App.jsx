@@ -25,7 +25,6 @@ const App = () => {
                         <Route path="/sheets" element={<SheetsPage />}/>
                         <Route path="/sheets/new" element={<CreateSheetPage />}/>
                         <Route path="/sheets/:sheetId" element={<SheetDetailPage />}/>
-                        <Route path="/draw" element={<DrawPage />}/>
                         <Route path="/draw/:sheetId" element={<DrawPage />}/>
                         <Route path="*" element={<Http404 />}/>
                     </Routes>

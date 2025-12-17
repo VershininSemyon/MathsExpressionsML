@@ -50,7 +50,8 @@ const SheetDetailPage = () => {
             if (foundSheet) {
                 setSheet(foundSheet);
                 setEditForm({ title: foundSheet.title });
-            } else {
+            } 
+            else {
                 navigate('/sheets');
             }
         }
