@@ -20,7 +20,8 @@ api.interceptors.request.use((config) => {
             if (authData?.accessToken) {
                 config.headers.Authorization = `Bearer ${authData.accessToken}`;
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error parsing authState from localStorage:', error);
         }
     }

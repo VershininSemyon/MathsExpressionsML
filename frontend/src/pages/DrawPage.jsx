@@ -61,11 +61,13 @@ const DrawPage = () => {
                     else {
                         setError(recognitionResult.error || 'Ошибка распознавания');
                     }
-                } catch (err) {
+                } 
+                catch (err) {
                     setError('Ошибка при отправке изображения');
                 }
             }, 'image/png');
-        } catch (err) {
+        } 
+        catch (err) {
             setError('Ошибка при обработке изображения');
         }
     };

@@ -29,7 +29,7 @@ const Header = () => {
                         {authState.isAuthenticated && (
                             <>
                                 <Nav.Link as={Link} to="/sheets">Мои листы</Nav.Link>
-                                <Nav.Link as={Link} to="/draw">Рисовать</Nav.Link>
+                                <Nav.Link as={Link} to="/sheets/new">Создать новый лист</Nav.Link>
                             </>
                         )}
                     </Nav>

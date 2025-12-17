@@ -14,9 +14,11 @@ export const useSheets = () => {
         try {
             const response = await sheetsService.getAllSheets();
             setSheets(response.data);
-        } catch (error) {
+        } 
+        catch (error) {
             handleError(error);
-        } finally {
+        } 
+        finally {
             setLoading(false);
         }
     }, [handleError]);

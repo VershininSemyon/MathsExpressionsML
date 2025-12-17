@@ -63,7 +63,8 @@ const SheetDetailPage = () => {
             const updatedSheet = await updateSheet(sheetId, editForm);
             setSheet(updatedSheet);
             setShowEditModal(false);
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error updating sheet:', error);
         }
     };
@@ -73,7 +74,8 @@ const SheetDetailPage = () => {
             await deleteSheet(sheetId);
             setShowDeleteModal(false);
             navigate('/sheets');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error deleting sheet:', error);
         }
     };
@@ -82,7 +84,8 @@ const SheetDetailPage = () => {
         if (window.confirm('Вы уверены, что хотите удалить это выражение?')) {
             try {
                 await deleteExpression(expressionId);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Error deleting expression:', error);
             }
         }
