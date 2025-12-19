@@ -11,6 +11,7 @@ import DrawPage from './pages/DrawPage';
 import Home from './pages/Home';
 import SheetDetailPage from './pages/SheetDetailPage';
 import SheetsPage from './pages/SheetsPage';
+import ProtectedRoute from './components/Account/ProtectedRoute';
 
 
 const App = () => {
@@ -19,14 +20,62 @@ const App = () => {
             <BrowserRouter>
                 <Layout>
                     <Routes>
-                        <Route path="/" element={<Home />}/>
-                        <Route path="/register" element={<Registration />}/>
-                        <Route path="/login" element={<Login />}/>
-                        <Route path="/sheets" element={<SheetsPage />}/>
-                        <Route path="/sheets/new" element={<CreateSheetPage />}/>
-                        <Route path="/sheets/:sheetId" element={<SheetDetailPage />}/>
-                        <Route path="/draw/:sheetId" element={<DrawPage />}/>
-                        <Route path="*" element={<Http404 />}/>
+                        <Route 
+                            path="/" 
+                            element={
+                                <Home />
+                            }
+                        />
+                        <Route 
+                            path="/register"
+                            element={
+                                <Registration />
+                            }
+                        />
+                        <Route 
+                            path="/login"
+                            element={
+                                <Login />
+                            }
+                        />
+                        <Route 
+                            path="/sheets"
+                            element={
+                                <ProtectedRoute>
+                                    <SheetsPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route 
+                            path="/sheets/new"
+                            element={
+                                <ProtectedRoute>
+                                    <CreateSheetPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route 
+                            path="/sheets/:sheetId"
+                            element={
+                                <ProtectedRoute>
+                                    <SheetDetailPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route 
+                            path="/draw/:sheetId"
+                            element={
+                                <ProtectedRoute>
+                                    <DrawPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route 
+                            path="*"
+                            element={
+                                <Http404 />
+                            }
+                        />
                     </Routes>
                 </Layout>
             </BrowserRouter>

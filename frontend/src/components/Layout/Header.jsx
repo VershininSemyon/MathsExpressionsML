@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
-import { logout } from '../../services/auth';
+import { authService } from '../../services/authService';
 
 
 const Header = () => {
@@ -11,7 +11,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        logout(initialAuthState, setAuthState);
+        authService.logout(initialAuthState, setAuthState);
         navigate('/login');
     };
 

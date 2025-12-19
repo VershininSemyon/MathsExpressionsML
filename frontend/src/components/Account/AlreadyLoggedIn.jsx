@@ -2,7 +2,7 @@
 import React, {useContext} from 'react'
 import { Card, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
-import { logout } from '../../services/auth';
+import { authService } from '../../services/authService';
 
 
 const AlreadyLoggedIn = () => {
@@ -24,7 +24,7 @@ const AlreadyLoggedIn = () => {
                             <div className="d-grid">
                                 <Button 
                                     variant="outline-danger" 
-                                    onClick={() => logout(initialAuthState, setAuthState)}
+                                    onClick={() => authService.logout(initialAuthState, setAuthState)}
                                     size="lg"
                                 >
                                     Выйти из профиля

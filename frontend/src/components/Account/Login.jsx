@@ -5,7 +5,7 @@ import { useErrorMessage } from '../../hooks/useErrorMessage';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 import AlreadyLoggedIn from './AlreadyLoggedIn';
 import { Form, Button, Card, Alert, Container, Row, Col } from 'react-bootstrap';
-import { login } from '../../services/auth';
+import { authService } from '../../services/authService';
 
 
 const Login = () => {
@@ -26,7 +26,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(authState, setAuthState, formData).then(() => {
+        authService.login(authState, setAuthState, formData).then(() => {
                 navigate('/');
             })
             .catch((err) => {

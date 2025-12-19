@@ -3,8 +3,8 @@ import React, {useState, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useErrorMessage } from '../../hooks/useErrorMessage';
 import { Form, Button, Card, Alert, Container, Row, Col } from 'react-bootstrap';
-import { register } from '../../services/auth';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
+import { authService } from '../../services/authService';
 
 
 const Registration = () => {
@@ -21,7 +21,7 @@ const Registration = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        register(initialAuthState, authState, setAuthState, formData).then(() => {
+        authService.register(initialAuthState, authState, setAuthState, formData).then(() => {
                 navigate('/');
             })
             .catch((err) => {

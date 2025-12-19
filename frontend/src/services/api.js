@@ -11,15 +11,14 @@ const api = axios.create({
     withCredentials: true,
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(async (config) => {
     const storedAuth = localStorage.getItem('authState');
     
     if (storedAuth) {
         try {
             const authData = JSON.parse(storedAuth);
-            if (authData?.accessToken) {
-                config.headers.Authorization = `Bearer ${authData.accessToken}`;
-            }
+            const accessToken = authData.accessToken;
+            config.headers.Authorization = `Bearer ${accessToken}`;
         } 
         catch (error) {
             console.error('Error parsing authState from localStorage:', error);
